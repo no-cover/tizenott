@@ -1,0 +1,11 @@
+{
+  "name": "bgservice",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {}
+}
