@@ -23,7 +23,7 @@ App.Player = (function Player() {
             onerror: (err) => {
                 App.Log.print("[AVPlayer] ERROR: " + JSON.stringify(err));
                 App.Lottie.hideLoading();
-                App.Background.show();
+                module.canvas.start();
             }
         });
     }
@@ -50,10 +50,10 @@ App.Player = (function Player() {
         webapis.avplay.prepareAsync(() => {
             webapis.avplay.play();
             App.Log.print(`[AVPlayer] playing URI: ${currentUri}`);
-            App.Background.hide();
+            module.canvas.hide();
         }, (err) => {
             App.Log.print(`[AVPlayer] prepare error: ${JSON.stringify(err)}`);
-            App.Background.show();
+            module.canvas.start();
         });
     }
 
@@ -61,7 +61,7 @@ App.Player = (function Player() {
         try {
             webapis.avplay.stop();
             App.Log.print("[AVPlayer] stopped");
-            App.Background.show();
+            module.canvas.start();
         } catch (e) {
             App.Log.print(`[AVPlayer] stop error: ${e.message}`);
         }

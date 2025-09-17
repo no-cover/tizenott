@@ -1,14 +1,15 @@
-const message = require('./message.js');
+var message = require('./message.js');
 
-function onStart() {
-    message.init();
+
+module.exports.onStart = function () {
+	message.init();
+
 }
 
-function onRequest() {
-    
+module.exports.onRequest = function () {
+
 }
 
-module.exports = {
-    onStart: onStart,
-    onRequest: onRequest
-};
+module.exports.onExit = function () {
+
+}

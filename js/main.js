@@ -2,8 +2,7 @@ App = window.App || {};
 App.Main = (function Main() {
 
     window.onload = async function () {
-        App.Background.init();
-        App.Background.show();
+        module.canvas.start();
         await App.DB.init();
         App.Navigation.initRemoteKeys();
         App.Channel.newChannelInfo();

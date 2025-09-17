@@ -1,4 +1,4 @@
-const storage = require('./storage.js');
+var storage = require('./storage.js');
 
 function parsePlaylist(filePathOrName, chunkSize = 25, callback, isFullPath = false) {
     var processFile = (filePath) => {
@@ -58,6 +58,4 @@ function parsePlaylist(filePathOrName, chunkSize = 25, callback, isFullPath = fa
     }
 }
 
-module.exports = {
-    parsePlaylist: parsePlaylist
-};
+exports.parsePlaylist = parsePlaylist;

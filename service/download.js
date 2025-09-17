@@ -25,4 +25,4 @@ function download(url, callback) {
     }
 }
 
-module.exports = { download };
+exports.download = download;

@@ -178,7 +178,7 @@ App.Menu = (function Menu() {
                 App.DB.getSavedPlaylists().then(list => {
                     if (!list.length) {
                         App.Log.print("[FRONT] no saved playlists");
-                        App.Log.printAlert("No saved playlists");
+                        App.Log.printAlert("You have no saved playlists");
                         return;
                     }
                     var displayList = list.filter(p => p && p.shortName).map(p => p.shortName);
@@ -245,7 +245,7 @@ App.Menu = (function Menu() {
         var playlist = savedPlaylists.find(p => p && p.shortName === item);
         if (!playlist) return;
 
-        if (confirm(`Delete the playlist ${playlist.shortName}?`)) {
+        if (confirm(`Delete ${playlist.shortName} playlist?`)) {
             App.DB.deletePlaylistById(playlist.id).then(() => {
                 var newMeta = savedPlaylists.filter(p => p.id !== playlist.id);
                 localStorage.setItem('playlistsData', JSON.stringify(newMeta));

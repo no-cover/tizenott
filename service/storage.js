@@ -47,8 +47,6 @@ function drop(filePath, callback) {
     });
 }
 
-module.exports = {
-    scanUSB: scanUSB,
-    getFile: getFile,
-    drop: drop
-};
+exports.scanUSB = scanUSB;
+exports.getFile = getFile;
+exports.drop = drop;

@@ -9,7 +9,7 @@ App.Lottie = (function Lottie() {
         loader.id = "loader";
         loader.classList.add("hidden");
         document.body.appendChild(loader);
-        App.Scripts.lottie.loadAnimation({
+        module.lottie.loadAnimation({
             container: loader,
             renderer: 'svg',
             loop: true,
@@ -34,7 +34,7 @@ App.Lottie = (function Lottie() {
             if (container.dataset.lottieInit && instances.has(container)) return Promise.resolve();
 
             return new Promise(resolve => {
-                var anim = App.Scripts.lottie.loadAnimation({
+                var anim = module.lottie.loadAnimation({
                     container,
                     renderer: 'svg',
                     loop: false,

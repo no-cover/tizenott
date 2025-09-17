@@ -1,10 +1,10 @@
-const storage = require('./storage.js');
-const playlist = require('./playlist.js');
-const download = require('./download.js');
+var storage = require('./storage.js');
+var playlist = require('./playlist.js');
+var download = require('./download.js');
 
-const LOCAL_PORT = 'BACKEND_PORT';
-const REMOTE_PORT = 'FRONTEND_PORT';
-const WEB_APP_ID = 'trXOaEAdwm.TOttWebApp';
+var LOCAL_PORT = 'BACKEND_PORT';
+var REMOTE_PORT = 'FRONTEND_PORT';
+var WEB_APP_ID = 'trXOaEAdwm.TOttWebApp';
 
 var localPort = null;
 var remotePort = null;
@@ -81,7 +81,5 @@ function initMessagePort() {
     sendMessage("status", "the service is ready");
 }
 
-module.exports = {
-    init: init,
-    sendMessage: sendMessage
-};
+exports.init = init;
+exports.sendMessage = sendMessage;
