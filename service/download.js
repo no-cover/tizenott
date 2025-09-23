@@ -1,8 +1,5 @@
-function checkUrl(url) {
-    if (!/^https?:\/\//i.test(url)) {
-        url = 'http://' + url;
-    }
-    return url;
+var checkUrl = function(url) {
+  return (/^https?:\/\//i.test(url)) ? url : 'http://' + url;
 }
 
 function download(url, callback) {

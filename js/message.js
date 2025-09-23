@@ -40,7 +40,7 @@ App.Message = (function Message() {
                             var files = JSON.parse(value);
                             App.State.isScanning = false;
                             App.Menu.renderFiles(files);
-                        } catch {
+                        } catch (e) {
                             App.Log.print(`[FRONT] invalid files data ${value}`);
                         }
                         App.Lottie.hideLoading();

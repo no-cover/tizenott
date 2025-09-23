@@ -60,14 +60,14 @@ function initMessagePort() {
                         playlist.parsePlaylist(filePath, 25, function (err, chunk, offset, total) {
                             if (err) {
                                 sendMessage("error", err);
-                                return download.drop(filePath, () => {});
+                                return download.drop(filePath, function() {});
                             }
 
                             sendMessage("playlistChunk", { items: chunk, offset, total });
 
                             if (offset + chunk.length >= total) {
                                 sendMessage("playlistComplete", { total });
-                                storage.drop(filePath, () => {});
+                                storage.drop(filePath, function() {});
                             }
                         }, true);
                     });

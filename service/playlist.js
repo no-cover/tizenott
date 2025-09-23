@@ -1,14 +1,16 @@
 var storage = require('./storage.js');
 
-function parsePlaylist(filePathOrName, chunkSize = 25, callback, isFullPath = false) {
-    var processFile = (filePath) => {
+function parsePlaylist(filePathOrName, chunkSize, callback, isFullPath) {
+    if (typeof chunkSize === 'undefined') chunkSize = 25;
+    if (typeof isFullPath === 'undefined') isFullPath = false;
+    var processFile = function (filePath) {
         tizen.filesystem.resolve(filePath, function (fileEntry) {
             fileEntry.readAsText(function (content) {
                 var lines = content.split(/\r?\n/);
                 var playlist = [];
                 var currentInfo = {};
 
-                lines.forEach(line => {
+                lines.forEach(function (line) {
                     line = line.trim();
                     if (!line) return;
 
@@ -39,13 +41,13 @@ function parsePlaylist(filePathOrName, chunkSize = 25, callback, isFullPath = fa
                     return callback("No channels found");
                 }
 
-                for (let i = 0; i < playlist.length; i += chunkSize) {
+                for (var i = 0; i < playlist.length; i += chunkSize) {
                     var chunk = playlist.slice(i, i + chunkSize);
                     callback(null, chunk, i, playlist.length);
                 }
 
-            }, err => callback(err));
-        }, err => callback(err));
+            }, function (err) { callback(err); });
+        }, function (err) { callback(err); });
     };
 
     if (isFullPath) {
