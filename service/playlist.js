@@ -1,13 +1,13 @@
-var { readFileSync } = require('fs');
+var fs = require('fs');
 var storage = require('./storage.js');
 
 function parsePlaylist(fileName, chunkSize, callback, isFullPath) {
-    if (chunkSize === undefined) chunkSize = 50;
+    if (chunkSize === undefined) chunkSize = 30;
     if (isFullPath === undefined) isFullPath = false;
-    var processFile = (filePath) => {
+    var processFile = function(filePath) {
         var content;
         try {
-            content = readFileSync(filePath, 'utf-8');
+            content = fs.readFileSync(filePath, 'utf-8');
         } catch (err) {
             return callback(err);
         }
@@ -16,7 +16,7 @@ function parsePlaylist(fileName, chunkSize, callback, isFullPath) {
         var playlist = [];
         var currentInfo = {};
 
-        lines.forEach(line => {
+        lines.forEach(function(line) {
             line = line.trim();
             if (!line) return;
 

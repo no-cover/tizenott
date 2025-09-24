@@ -1,16 +1,16 @@
-var { readdir, unlink } = require('fs');
-var { join } = require('path');
+var fs = require('fs');
+var path = require('path');
 
 var USB_ROOT = '/opt/media';
 
 function scanUSB(callback, findFile) {
-    readdir(USB_ROOT, function(err, drives) {
+    fs.readdir(USB_ROOT, function(err, drives) {
         if (err) return callback("USB root not accessible: " + err, null);
         if (!drives || drives.length === 0) return callback("USB flash drive not connected", null);
 
-        var usbPath = join(USB_ROOT, drives[0]);
+        var usbPath = path.join(USB_ROOT, drives[0]);
 
-        readdir(usbPath, function(err, files) {
+        fs.readdir(usbPath, function(err, files) {
             if (err) return callback("Failed to read USB: " + err, null);
 
             if (findFile) {
@@ -18,7 +18,7 @@ function scanUSB(callback, findFile) {
                     return f === findFile;
                 });
                 if (!fileEntry) return callback("file " + findFile + " not found", null);
-                return callback(null, join(usbPath, fileEntry));
+                return callback(null, path.join(usbPath, fileEntry));
 
             } else {
                 var playlists = [];

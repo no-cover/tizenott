@@ -19,8 +19,8 @@ App.Message = (function Message() {
         tizen.application.launchAppControl(
             appctrl,
             appId,
-            function() { App.Log.print(`[FRONT] service app started : ${appId}`); isServiceStarted = true; },
-            function(error) {
+            () => { App.Log.print(`[FRONT] service app started : ${appId}`); isServiceStarted = true; },
+            (error) => {
                 App.Log.print(`[FRONT] failed: ${error.message}`);
                 tizen.application.getCurrentApplication().exit();
             }

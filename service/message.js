@@ -39,7 +39,7 @@ function initMessagePort() {
                 if (payload.cmd === "parseM3U") {
                     sendMessage("status", "parsing the playlist in progress");
 
-                    playlist.parsePlaylist(payload.file, 50, function (err, chunk, offset, total) {
+                    playlist.parsePlaylist(payload.file, 30, function (err, chunk, offset, total) {
                         if (err) return sendMessage("error", err);
 
                         sendMessage("playlistChunk", { items: chunk, offset, total });
@@ -57,7 +57,7 @@ function initMessagePort() {
 
                         sendMessage("status", "parsing the playlist in progress");
 
-                        playlist.parsePlaylist(filePath, 25, function (err, chunk, offset, total) {
+                        playlist.parsePlaylist(filePath, 30, function (err, chunk, offset, total) {
                             if (err) {
                                 sendMessage("error", err);
                                 return storage.drop(filePath, function () {});
