@@ -26,7 +26,7 @@ function initMessagePort() {
     localPort.addMessagePortListener(function (data) {
         var command = data[0].value;
 
-        if (command === 'scanUSB') {
+        if (command === "scanUSB") {
             storage.scanUSB(function (err, files) {
                 if (err) return sendMessage("error", err);
                 sendMessage("files", files);
@@ -39,7 +39,7 @@ function initMessagePort() {
                 if (payload.cmd === "parseM3U") {
                     sendMessage("status", "parsing the playlist in progress");
 
-                    playlist.parsePlaylist(payload.file, 25, function (err, chunk, offset, total) {
+                    playlist.parsePlaylist(payload.file, 50, function (err, chunk, offset, total) {
                         if (err) return sendMessage("error", err);
 
                         sendMessage("playlistChunk", { items: chunk, offset, total });
@@ -60,14 +60,14 @@ function initMessagePort() {
                         playlist.parsePlaylist(filePath, 25, function (err, chunk, offset, total) {
                             if (err) {
                                 sendMessage("error", err);
-                                return download.drop(filePath, function() {});
+                                return storage.drop(filePath, function () {});
                             }
 
                             sendMessage("playlistChunk", { items: chunk, offset, total });
 
                             if (offset + chunk.length >= total) {
                                 sendMessage("playlistComplete", { total });
-                                storage.drop(filePath, function() {});
+                                storage.drop(filePath, function () {});
                             }
                         }, true);
                     });

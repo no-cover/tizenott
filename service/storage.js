@@ -1,29 +1,35 @@
-function scanUSB(callback, findFile) {
-    tizen.filesystem.listStorages(function(storages) {
-        var usb = storages.find(function(s) {
-            return s.type === "EXTERNAL" && s.state === "MOUNTED";
-        });
-        if (!usb) return callback("USB flash drive not connected", null);
+var { readdir, unlink } = require('fs');
+var { join } = require('path');
 
-        tizen.filesystem.resolve(usb.label, function(dir) {
-            dir.listFiles(function(items) {
-                if (findFile) {
-                    var fileEntry = items.find(function(item) {
-                        return item.isFile && item.name === findFile;
-                    });
-                    if (!fileEntry) return callback("file " + findFile + " not found", null);
-                    return callback(null, fileEntry.toURI());
-                } else {
-                    var files = [];
-                    items.forEach(function(item) {
-                    if (item.isFile && (item.name.endsWith(".m3u") || item.name.endsWith(".m3u8"))) {
-                        files.push(item.name);
+var USB_ROOT = '/opt/media';
+
+function scanUSB(callback, findFile) {
+    readdir(USB_ROOT, function(err, drives) {
+        if (err) return callback("USB root not accessible: " + err, null);
+        if (!drives || drives.length === 0) return callback("USB flash drive not connected", null);
+
+        var usbPath = join(USB_ROOT, drives[0]);
+
+        readdir(usbPath, function(err, files) {
+            if (err) return callback("Failed to read USB: " + err, null);
+
+            if (findFile) {
+                var fileEntry = files.find(function(f) {
+                    return f === findFile;
+                });
+                if (!fileEntry) return callback("file " + findFile + " not found", null);
+                return callback(null, join(usbPath, fileEntry));
+
+            } else {
+                var playlists = [];
+                files.forEach(function(f) {
+                    if (f.endsWith(".m3u") || f.endsWith(".m3u8")) {
+                        playlists.push(f);
                     }
-                    });
-                    if (files.length > 0) callback(null, files);
-                    else callback("No playlist files found", null);
-                }
-            });
+                });
+                if (playlists.length > 0) callback(null, playlists);
+                else callback("No playlist files found", null);
+            }
         });
     });
 }
@@ -33,17 +39,9 @@ function getFile(fileName, callback) {
 }
 
 function drop(filePath, callback) {
-    tizen.filesystem.resolve(filePath, function(fileEntry) {
-        tizen.filesystem.deleteFile(fileEntry.fullPath,
-            function() {
-                callback(null);
-            },
-            function(err) {
-                callback(err);
-            }
-        );
-    }, function(err) {
-        callback(err);
+    unlink(filePath, function(err) {
+        if (err) return callback(err);
+        callback(null);
     });
 }
 

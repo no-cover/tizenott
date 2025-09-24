@@ -19,8 +19,8 @@ App.Message = (function Message() {
         tizen.application.launchAppControl(
             appctrl,
             appId,
-            () => { App.Log.print(`[FRONT] service app started : ${appId}`); isServiceStarted = true; },
-            (error) => {
+            function() { App.Log.print(`[FRONT] service app started : ${appId}`); isServiceStarted = true; },
+            function(error) {
                 App.Log.print(`[FRONT] failed: ${error.message}`);
                 tizen.application.getCurrentApplication().exit();
             }
@@ -48,7 +48,7 @@ App.Message = (function Message() {
 
                     case "playlistChunk":
                         try {
-                            var data = (typeof value === 'string') ? JSON.parse(value) : value;
+                            var data = (typeof value === "string") ? JSON.parse(value) : value;
                             var { items, offset, total } = data;
 
                             App.Log.print(`[FRONT] chunk ${offset}..${offset + items.length}/${total}`);

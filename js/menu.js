@@ -198,7 +198,7 @@ App.Menu = (function Menu() {
                         if (App.State.isScanning) return;
                         App.State.isScanning = true;
                         App.Lottie.showLoading();
-                        App.Message.sendMsg([{ key: 'data', value: 'scanUSB' }]);
+                        App.Message.sendMsg([{ key: "data", value: "scanUSB" }]);
                         break;
                     default:
                         App.Log.print("[FRONT] no action assigned");
