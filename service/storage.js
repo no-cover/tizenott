@@ -39,7 +39,7 @@ function getFile(fileName, callback) {
 }
 
 function drop(filePath, callback) {
-    unlink(filePath, function(err) {
+    fs.unlink(filePath, function(err) {
         if (err) return callback(err);
         callback(null);
     });
